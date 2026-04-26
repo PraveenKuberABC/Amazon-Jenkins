@@ -1,7 +1,7 @@
 @Library('my-shared-lib') _
 pipeline {
     agent any
-    environment {
+    environment { 
         // Use PATH+EXTRA to append to PATH properly
         PATH = "/usr/bin:/bin:/usr/local/bin"
     }
