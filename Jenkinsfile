@@ -9,7 +9,7 @@ pipeline {
         stage('pull scm git ') {
             steps {
                 //git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
-                echo "this is the webhook" 
+                echo "this is the webhook"  
             }
         }
         stage('compile ') {
