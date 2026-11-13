@@ -20,7 +20,6 @@ pipeline {
         stage('build') {
             steps {
                  sh 'mvn clean install'
-                 sh 'exit 1'
             }
         }
 
