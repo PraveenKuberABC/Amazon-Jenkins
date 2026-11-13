@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        // Use PATH+EXTRA to append to PATH properly test
+        // Use PATH+EXTRA to append to PATH properly test and test
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
     stages {
