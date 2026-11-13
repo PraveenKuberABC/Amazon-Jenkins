@@ -26,17 +26,22 @@ pipeline {
         
     }
 
-  post{
-
-  success{
-     echo 'Build success 1'
-  }
-    
-  failure{
-       echo 'Failure in the build'
-   }
-
-  }
+      post {
+        success {
+            emailext(
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Build succeeded.\nJob: ${env.JOB_NAME}\nBuild: #${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}",
+                to: 'asha.jenkins.reports@gmail.com'
+            )
+        }
+        failure {
+            emailext(
+                subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Build failed.\nJob: ${env.JOB_NAME}\nBuild: #${env.BUILD_NUMBER}\nCheck: ${env.BUILD_URL}console",
+                to: 'asha.jenkins.reports@gmail.com'
+            )
+        }
+    }
 
 
 }
