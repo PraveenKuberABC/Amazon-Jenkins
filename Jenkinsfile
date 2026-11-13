@@ -1,15 +1,14 @@
+
 pipeline {
     agent any
-    
+
     environment {
-        // Use PATH+EXTRA to append to PATH properly data
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
 
-    
     stages {
 
-        stage('compile ') {
+        stage('compile') {
             steps {
                 sh 'mvn compile'
             }
@@ -17,24 +16,29 @@ pipeline {
 
         stage('build') {
             steps {
-                 sh 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
 
-        
+        stage('Deploy') {
+            when {
+                expression {
+                    env.BRANCH_NAME?.contains('release')
+                }
+            }
+            steps {
+                echo "Its an release branch and will start deploy the war to tomcat"
+            }
+        }
     }
 
-  post{
+    post {
+        success {
+            echo 'Build success 1'
+        }
 
-  success{
-     echo 'Build success 1'
-  }
-    
-  failure{
-       echo 'Failure in the build'
-   }
-
-  }
-
-
+        failure {
+            echo 'Failure in the build'
+        }
+    }
 }
