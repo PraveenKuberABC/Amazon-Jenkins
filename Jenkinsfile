@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        // Use PATH+EXTRA to append to PATH properly
+        // Use PATH+EXTRA to append to PATH properly data
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
 
