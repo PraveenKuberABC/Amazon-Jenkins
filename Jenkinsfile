@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                sh 'mvn compile'
+                sh '#!/bin/bash\nmvn compile'
             }
         }
 
         stage('Build') {
             steps {
-                 sh 'mvn clean install'
+                sh '#!/bin/bash\nmvn clean install'
             }
         }
     }
@@ -23,7 +23,6 @@ pipeline {
                 body: "Your Jenkins Pipeline is successful"
             )
         }
-
         failure {
             emailext(
                 to: 'kamran.abc.reports@gmail.com',
