@@ -1,47 +1,36 @@
 pipeline {
     agent any
     environment {
-        // Use PATH+EXTRA to append to PATH properly
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
     stages {
-
-        stage('pull scm git ') {
-            steps {
-                git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
-            }
-        }
-        stage('compile ') {
+        stage ('compile') {
             steps {
                 sh 'mvn compile'
             }
         }
-
-        stage('build') {
+        stage ('build') {
             steps {
-                 sh 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
-
-        
+        stage ('Deploy') {
+            when {
+                expression {
+                    env.BRANCH_NAME?.contains('release')
+                }
+            }
+            steps {
+                echo "Its an release branch and will start deploy the war to tomcat"
+            }
+        }
     }
-
-      post {
+    post {
         success {
-            emailext(
-                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Build succeeded.\nJob: ${env.JOB_NAME}\nBuild: #${env.BUILD_NUMBER}\nURL: ${env.BUILD_URL}",
-                to: 'asha.jenkins.reports@gmail.com'
-            )
+            echo 'Build success'
         }
         failure {
-            emailext(
-                subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Build failed.\nJob: ${env.JOB_NAME}\nBuild: #${env.BUILD_NUMBER}\nCheck: ${env.BUILD_URL}console",
-                to: 'asha.jenkins.reports@gmail.com'
-            )
+            echo 'Failure in the build'
         }
     }
-
-
 }
