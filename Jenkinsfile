@@ -2,12 +2,6 @@ pipeline {
     agent { label 'Node1' }
 
     stages {
-        stage('Pull SCM') {
-            steps {
-                // Automatically checks out the current branch being built
-                checkout scm
-            }
-        }
         stage('Compile') {
             steps {
                 sh 'mvn compile'
