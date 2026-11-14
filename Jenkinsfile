@@ -25,7 +25,7 @@ pipeline {
     }
     post {
         success {
-            echo 'Build success from Jenkinsfile'
+            echo 'Build success - started by GitHub webhook'
         }
         failure {
             echo 'Failure in the build'
