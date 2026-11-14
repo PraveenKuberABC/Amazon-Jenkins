@@ -1,71 +1,41 @@
 pipeline {
-
     agent { label 'Node1' }
- 
-    environment {
 
-        PATH = "/usr/bin:/bin:/opt/homebrew/bin"
-
-    }
- 
     stages {
- 
-        stage('compile') {
-
+        stage('Pull SCM') {
             steps {
-
+                // Automatically checks out the current branch being built
+                checkout scm
+            }
+        }
+        stage('Compile') {
+            steps {
                 sh 'mvn compile'
-
             }
-
         }
- 
-        stage('build') {
 
+        stage('Build') {
             steps {
-
-                sh 'mvn clean install'
-
+                 sh 'mvn clean install'
             }
-
         }
- 
-        stage('Deploy') {
-
-            when {
-
-                expression {
-
-                    env.BRANCH_NAME?.contains('release')
-
-                }
-
-            }
-
-            steps {
-
-                echo "Its an release branch and will start deploy the war to tomcat"
-
-            }
-
-        }
-
     }
- 
+
     post {
-
         success {
-
-            echo 'Build success 1'
-
+            emailext(
+                to: 'kamran.abc.reports@gmail.com',
+                subject: "Jenkins Pipeline - ${env.JOB_NAME} - SUCCESS",
+                body: "Your Jenkins Pipeline is successful"
+            )
         }
- 
+
         failure {
-
-            echo 'Failure in the build'
-
+            emailext(
+                to: 'kamran.abc.reports@gmail.com',
+                subject: "Jenkins Pipeline - ${env.JOB_NAME} - FAILURE",
+                body: "Your Jenkins Pipeline has failed"
+            )
         }
-
     }
-
 }
