@@ -1,40 +1,41 @@
 pipeline {
+
     agent any
+
     environment {
-        // Use PATH+EXTRA to append to PATH properly
-        PATH = "/usr/bin:/bin:/opt/homebrew/bin"
+        git_branch = 'main'
+        git_url_praveen = 'https://github.com/PraveenKuberABC/Amazon-Jenkins.git'
     }
+
     stages {
 
-        stage('pull scm git ') {
+        stage('CLONE PROJECT') {
             steps {
-                git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
+                git branch: "${git_branch}",
+                    url: "${git_url_praveen}"
             }
         }
-        stage('compile ') {
+
+        stage('COMPILE') {
             steps {
                 sh 'mvn compile'
             }
         }
 
-        stage('build') {
+        stage('BUILD') {
             steps {
-                 sh 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
-
-        
     }
 
- post {
-
+    post {
         success {
-            echo 'BUILD SUCCESSFUL - Pipeline executed successfully!'
+            echo 'Build successful!'
         }
 
         failure {
-            echo 'BUILD FAILED - Please check the Console Output!'
+            echo 'Build failed!'
         }
-
     }
 }
