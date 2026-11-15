@@ -3,39 +3,93 @@ pipeline {
     agent any
 
     environment {
-        git_branch = 'main'
-        git_url_praveen = 'https://github.com/PraveenKuberABC/Amazon-Jenkins.git'
+        GIT_BRANCH = 'main'
+        GIT_URL = 'https://github.com/PraveenKuberABC/Amazon.git'
     }
 
     stages {
 
-        stage('CLONE PROJECT') {
+        stage('CLONE REPOSITORY') {
             steps {
-                git branch: "${git_branch}",
-                    url: "${git_url_praveen}"
+                git branch: "${GIT_BRANCH}",
+                    url: "${GIT_URL}"
             }
         }
 
-        stage('COMPILE') {
+        stage('BUILD AMAZON') {
+            when {
+                expression { fileExists('Amazon/pom.xml') }
+            }
             steps {
-                sh 'mvn compile'
+                dir('Amazon') {
+                    sh 'mvn clean install'
+                }
             }
         }
 
-        stage('BUILD') {
+        stage('BUILD SKY') {
+            when {
+                expression { fileExists('SKY/pom.xml') }
+            }
             steps {
-                sh 'mvn clean install'
+                dir('SKY') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        stage('BUILD SPRINGCORE') {
+            when {
+                expression { fileExists('SpringCore/pom.xml') }
+            }
+            steps {
+                dir('SpringCore') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        stage('BUILD SPRINGDEMO') {
+            when {
+                expression { fileExists('SpringDemo/pom.xml') }
+            }
+            steps {
+                dir('SpringDemo') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        stage('BUILD SPRINGNEW') {
+            when {
+                expression { fileExists('SpringNew/pom.xml') }
+            }
+            steps {
+                dir('SpringNew') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        stage('BUILD TEST') {
+            when {
+                expression { fileExists('Test/pom.xml') }
+            }
+            steps {
+                dir('Test') {
+                    sh 'mvn clean install'
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'Build successful!'
+            echo 'All available Maven projects built successfully!'
         }
 
         failure {
-            echo 'Build failed!'
+            echo 'One or more project builds failed!'
         }
     }
 }
