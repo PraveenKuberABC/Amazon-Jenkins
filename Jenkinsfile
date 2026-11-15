@@ -26,17 +26,15 @@ pipeline {
         
     }
 
-  post{
+ post {
 
-  success{
-     echo 'Build success 1'
-  }
-    
-  failure{
-       echo 'Failure in the build'
-   }
+        success {
+            echo 'BUILD SUCCESSFUL - Pipeline executed successfully!'
+        }
 
-  }
+        failure {
+            echo 'BUILD FAILED - Please check the Console Output!'
+        }
 
-
+    }
 }
