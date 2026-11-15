@@ -1,16 +1,11 @@
 pipeline {
     agent any
     environment {
-        // Use PATH+EXTRA to append to PATH properly
+        
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
     stages {
 
-        stage('pull scm git ') {
-            steps {
-                git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
-            }
-        }
         stage('compile ') {
             steps {
                 sh 'mvn compile'
@@ -22,9 +17,19 @@ pipeline {
                  sh 'mvn clean install'
             }
         }
-
-        
+stage('deploy'){
+    when{
+        expression{
+            env.BRANCH_NAME?contains('release-branch')
+        }
     }
+    steps{
+        echo "Its an release-branch branch and will start deploy the war to tomcat"
+    }
+}
+    }
+        
+    
 
   post{
 
