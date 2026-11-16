@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+    environment {
+        // Use PATH+EXTRA to append to PATH properly
+        PATH = "/usr/bin:/bin:/opt/homebrew/bin"
+    }
+    stages {
+
+        stage('pull scm git ') {
+            steps {
+                git branch: 'main', url: 'https://github.com/S1432S/Amazon-Jenkins.git'
+            }
+        }
+        stage('compile ') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+
+        stage('build') {
+            steps {
+                 sh 'mvn clean install'
+            }
+        }
+
+        
+    }
+
+ post {
+    success {
+        echo 'Build success 1'
+
+        emailext(
+            subject: "SUCCESS: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+            body: "Your Jenkins pipeline completed successfully.\nBuild URL: ${env.BUILD_URL}",
+            to: 'sunilsiragapur111@gmail.com'
+        )
+    }
+
+    failure {
+        echo 'Failure in the build'
+
+        emailext(
+            subject: "FAILURE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+            body: "Your Jenkins pipeline failed.\nPlease check the console output: ${env.BUILD_URL}",
+            to: 'sunilsiragapur111@gmail.com'
+        )
+    }
+}
+
+
+}
+// GitHub webhook test
+// Jenkins MultiBranch PR Demonstration
+// Jenkins webhook trigger and ngrok
