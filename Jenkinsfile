@@ -6,7 +6,7 @@ pipeline {
     }
     stages {
 
-        stage('pull scm git ') {
+        stage('pull scm git and test') {
             steps {
                 git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
             }
