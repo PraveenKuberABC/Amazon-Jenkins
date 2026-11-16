@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        // Use PATH+EXTRA to append to PATH properly
+        // Use PATH+EXTRA to append to PATH properly iteam 
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
     stages {
@@ -11,13 +11,13 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
             }
         }
-        stage('compile ') {
+        stage('compile stage  ') {
             steps {
                 sh 'mvn compile'
             }
         }
 
-        stage('build') {
+        stage('build stage ') {
             steps {
                  sh 'mvn clean install'
             }
