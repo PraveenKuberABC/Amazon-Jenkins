@@ -1,17 +1,17 @@
 pipeline {
     agent any
     environment {
-        // Use PATH+EXTRA to append to PATH properly
+        // Use PATH+EXTRA to append to PATH properly iteam 
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
     stages {
 
-        stage('pull scm git ') {
+        stage('pull scm') {
             steps {
                 git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
             }
         }
-        stage('compile ') {
+        stage('compile') {
             steps {
                 sh 'mvn compile'
             }
@@ -29,7 +29,7 @@ pipeline {
   post{
 
   success{
-     echo 'Build success 1'
+     echo 'Build success'
   }
     
   failure{
