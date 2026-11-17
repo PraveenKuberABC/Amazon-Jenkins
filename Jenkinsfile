@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
     environment {
         // Use PATH+EXTRA to append to PATH properly
