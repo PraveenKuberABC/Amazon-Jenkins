@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         GIT_BRANCH = 'main'
-        GIT_URL = 'https://github.com/PraveenKuberABC/Amazon.git'
+        GIT_URL = 'https://github.com/uday1487/Amazon-Jenkins.git'
     }
 
     stages {
