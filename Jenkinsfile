@@ -6,18 +6,18 @@ pipeline {
     }
     stages {
 
-        stage('pull scm git ') {
+        stage('pull scm') {
             steps {
                 git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
             }
         }
-        stage('compile ') {
+        stage('compile') {
             steps {
                 sh 'mvn compile'
             }
         }
 
-        stage('build stage ') {
+        stage('build') {
             steps {
                  sh 'mvn clean install'
             }
@@ -29,7 +29,7 @@ pipeline {
   post{
 
   success{
-     echo 'Build success 1'
+     echo 'Build success'
   }
     
   failure{
