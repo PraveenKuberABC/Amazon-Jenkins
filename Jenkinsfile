@@ -1,42 +1,42 @@
 pipeline {
     agent any
-    environment {
-        // Use PATH+EXTRA to append to PATH properly
-        PATH = "/usr/bin:/bin:/opt/homebrew/bin"
-    }
-    stages {
 
-        stage('pull scm git ') {
+    stages {
+        stage('Pull SCM') {
             steps {
-                git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
+                git branch: 'main',
+                    url: 'https://github.com/Adarshmetgud/Amazon-Jenkins.git'
             }
         }
-        stage('compile ') {
+
+        stage('Compile') {
             steps {
                 sh 'mvn compile'
             }
         }
 
-        stage('build') {
+        stage('Build') {
             steps {
-                 sh 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
-
-        
     }
 
-  post{
+    post {
+        success {
+            emailext(
+                to: 'adarshmetgud059@gmail.com',
+                subject: 'Build SUCCESS',
+                body: 'Amazon project build completed successfully!'
+            )
+        }
 
-  success{
-     echo 'Build success 1'
-  }
-    
-  failure{
-       echo 'Failure in the build'
-   }
-
-  }
-
-
+        failure {
+            emailext(
+                to: 'adarshmetgud059@gmail.com',
+                subject: 'Build FAILURE',
+                body: 'Amazon project build failed. Check Jenkins Console Output.'
+            )
+        }
+    }
 }

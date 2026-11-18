@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    tools {
+        jdk 'JDK17'
+        maven 'Maven3'
+    }
+
+    stages {
+        stage('Clone Project') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build All Projects') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'All projects built successfully!'
+        }
+
+        failure {
+            echo 'Build failed!'
+        }
+    }
+}
