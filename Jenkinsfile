@@ -1,7 +1,7 @@
 
 pipeline {
     agent any
-
+// Use PATH+EXTRA to append to PATH 
     environment {
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
