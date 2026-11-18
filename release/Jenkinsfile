@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage('info') {
+            steps {
+                echo 'Jenkinsfile from release folder'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('deploy to tomcat') {
+            steps {
+                echo 'start deploying to tomcat'
+            }
+        }
+    }
+}
+
