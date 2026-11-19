@@ -5,7 +5,12 @@ pipeline {
         PATH = "/usr/bin:/bin:/opt/homebrew/bin"
     }
     stages {
-
+stage('check files') {
+    steps {
+        sh 'pwd'
+        sh 'ls' 
+    }
+}
         stage('pull scm git ') {
             steps {
                 git branch: 'main', url: 'https://github.com/monishamonimp3-7373/Amazon-Jenkins.git'
