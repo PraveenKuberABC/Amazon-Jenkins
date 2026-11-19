@@ -1,42 +1,65 @@
 pipeline {
     agent any
+
     environment {
-        // Use PATH+EXTRA to append to PATH properly
-        PATH = "/usr/bin:/bin:/opt/homebrew/bin"
+        GIT_BRANCH = 'demo'
+        GIT_URL = 'https://github.com/sapsoni-hue/Amazon-Jenkins.git'
     }
+
     stages {
 
-        stage('pull scm git ') {
+        stage('Clone Project') {
             steps {
-                git branch: 'main', url: 'https://github.com/PraveenKuber/Amazon-Jenkins.git'
-            }
-        }
-        stage('compile ') {
-            steps {
-                sh 'mvn compile'
+                echo 'Cloning Amazon-Jenkins Repository'
+
+                git branch: "${env.GIT_BRANCH}",
+                    url: "${env.GIT_URL}"
             }
         }
 
-        stage('build') {
+        stage('Verify Workspace') {
             steps {
-                 sh 'mvn clean install'
+                echo "Current Branch: ${env.GIT_BRANCH}"
+                sh 'pwd'
+                sh 'ls -lrt'
             }
         }
 
-        
+        stage('Amazon Project') {
+            steps {
+                dir('Amazon') {
+                    echo 'Inside Amazon Project'
+                    sh 'pwd'
+                }
+            }
+        }
+
+        stage('SKY Project') {
+            steps {
+                dir('SKY') {
+                    echo 'Inside SKY Project'
+                    sh 'pwd'
+                }
+            }
+        }
+
+        stage('SpringCore Project') {
+            steps {
+                dir('SpringCore') {
+                    echo 'Inside SpringCore Project'
+                    sh 'pwd'
+                }
+            }
+        }
     }
 
-  post{
+    post {
+        success {
+            echo 'Pipeline execute successfully'
+        }
 
-  success{
-     echo 'Build success 1'
-  }
-    
-  failure{
-       echo 'Failure in the build'
-   }
-
-  }
-
-
+        failure {
+            echo 'Pipeline execution failed'
+        }
+    }
 }
