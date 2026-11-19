@@ -27,7 +27,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Its an release branch and will start deploy the war to tomcat"
+                echo "Its an release branch and will start deploy the war to tomcats"
             }
         }
     }
