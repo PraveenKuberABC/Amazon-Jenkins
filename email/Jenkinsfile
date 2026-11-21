@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    parameters {
+        booleanParam(name: 'FAIL_BUILD', defaultValue: false, description: 'Tick this to make the build fail (to test the failure email)')
+    }
+    stages {
+        stage('build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('check') {
+            steps {
+                script {
+                    if (params.FAIL_BUILD) {
+                        error 'Failing on purpose to test the failure email'
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            emailext to: 'buildreports.shivakumar@gmail.com',
+                     subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                     body: "Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} passed.\nDetails: ${env.BUILD_URL}"
+        }
+        failure {
+            emailext to: 'buildreports.shivakumar@gmail.com',
+                     subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                     body: "Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.\nCheck the console log: ${env.BUILD_URL}console"
+        }
+    }
+}
